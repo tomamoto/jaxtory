@@ -1,0 +1,26 @@
+from cherrypy.lib import auth_digest
+import os.path
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+imgur_app = 'xxxxxxxxxxxxxxx'
+imgur_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+imgur_token = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+imgur_rtoken = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+album = 'put_imgur_album_code_here'
+
+USERS = {'user': 'secret_please_change'}
+
+conf = {
+   '/': {
+        'tools.auth_digest.on': True,
+        'tools.auth_digest.realm': 'localhost',
+        'tools.auth_digest.get_ha1': auth_digest.get_ha1_dict_plain(USERS),
+        'tools.auth_digest.key': 'xxxxxxxxxxxxxxxx',
+        'tools.staticdir.root': os.path.join(current_dir, 'static')
+   },
+   '/admin.css': {
+       'tools.staticfile.on': True,
+       'tools.staticfile.filename': os.path.join(current_dir, 'static') + '/admin.css'
+   }
+}

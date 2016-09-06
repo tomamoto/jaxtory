@@ -1,0 +1,14 @@
+form {
+  padding: 10px;
+  margin: 10px;
+  border: solid thin grey;
+}
+
+li {
+  padding: 2px;
+  margin: 5px;
+}
+
+h1 {
+  margin-bottom: 50px;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>Jaxtory - Admin</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="admin.css">
+  </head>
+  <body>
+    <h1>Jaxtory - Admin</h1>
+    <ul>
+      {% for story in storyList %}
+        <li>
+          <a href="{{ baseurl }}/story?id={{ story._id }}">{{ story.name }} ({{ story._id }}) </a>
+          {% if defaultStory.storyID|string == story._id|string %}
+            <strong> Default </strong>
+          {% else %}
+            <a href="{{ baseurl }}/setDefault?id={{ story._id }}"> Make Default </a>
+          {% endif %}
+          <a class="btn btn-primary btn-xs" href="{{ baseurl }}/remStory?id={{ story._id }}">X</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+      <form class="form-inline" action="{{baseurl}}/addStory" method="post">
+        <input type="text" name="name" value="" required>
+        <input class="btn btn-primary btn-sm" type="submit" value="Create New Story">
+      </form>
+
+    <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>Jaxtory - Story Admin - {{ story.name }}</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="admin.css">
+  </head>
+  <body>
+    <h1>Jaxtory - Story Admin - {{ story.name }}</h1>
+    <div class="container">
+      {% for page in pageList %}
+        <div class="container col-md-3"><img src="{{ page.thumb }}"></img><p>{{ page.name }}</p><a class="btn btn-xs btn-primary" href="{{ baseurl }}/remPage?id={{ page._id }}&storyID={{ story._id }}&deletehash={{ page.deletehash }}">X</a> </div>
+      {% endfor %}
+    </div>
+
+    <form class="form-inline" action="{{baseurl}}/addPage" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="storyID" value="{{ story._id }}">
+      <div class="form-group">
+        <input type="file" name="file" required>
+      </div>
+      <input class="btn btn-primary btn-sm" type="submit" value="Create New Page">
+    </form>
+    <div class="container">
+      <a class="btn btn-default" href="{{baseurl}}">Back to Admin</a>
+    </div>
+
+    <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>
