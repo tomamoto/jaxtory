@@ -5,13 +5,22 @@ from jinja2 import Environment, FileSystemLoader
 from imgurpython import ImgurClient
 import pymongo
 from bson.objectid import ObjectId
-import config, config2
+try:
+    import config, config2
+except:
+    print("Don't forget to generate proper config files from the included config*.py.example files.")
 
 #Mongo Stuff
 client = pymongo.MongoClient()
 env = Environment(loader=FileSystemLoader('templates'))
 db = client['jaxtory']
 stories = db['stories']
+
+if(config.rproxy):
+    base = config.trueURL
+else:
+    base = cherrypy.request.base
+
 #storyList = list(stories.find({"jType": "story"}))
 
 #Imgur Stuff
@@ -111,14 +120,14 @@ class Admin:
         return adminRender()
 
 def adminRender():
-    baseurl = cherrypy.request.base + cherrypy.request.script_name
+    baseurl = base + cherrypy.request.script_name
     storyList = list(stories.find({"jType": "story"}))
     admin_tmpl = env.get_template('admin.html')
     defaultStory = stories.find_one({'jType': 'defaultStory'})
     return admin_tmpl.render(storyList=storyList, baseurl=baseurl, defaultStory=defaultStory)
 
 def storyRender(id):
-    baseurl = cherrypy.request.base + cherrypy.request.script_name
+    baseurl = base + cherrypy.request.script_name
     story = stories.find_one({"_id": ObjectId(id)})
     pageList = list(stories.find({"jType": "page", "storyID": id}).sort("name", pymongo.ASCENDING))
     admin_tmpl = env.get_template('story.html')

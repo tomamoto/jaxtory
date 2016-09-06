@@ -9,6 +9,10 @@ imgur_token = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 imgur_rtoken = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 album = 'put_imgur_album_code_here'
 
+#Is server behind a reverse proxy?
+rproxy = False
+trueURL = 'http://story.example.com'
+
 USERS = {'user': 'secret_please_change'}
 
 conf = {
