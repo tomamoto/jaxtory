@@ -9,7 +9,22 @@
     <h1>Jaxtory - Story Admin - {{ story.name }}</h1>
     <div class="container">
       {% for page in pageList %}
-        <div class="container col-md-3"><img src="{{ page.thumb }}"></img><p>{{ page.name }}</p><a class="btn btn-xs btn-primary" href="{{ baseurl }}/remPage?id={{ page._id }}&storyID={{ story._id }}&deletehash={{ page.deletehash }}">X</a> </div>
+        <div class="container col-md-6">
+          <img src="{{ page.thumb }}"></img>
+          <button type="btn btn-standard" data-toggle="collapse" data-target="#editform{{ page._id }},.collapse.in">Edit</button>
+          <form id="editform{{ page._id }}"class="form-horizontal collapse" action="{{ baseurl }}/editPage" method="post">
+            <input class="form-control" type="hidden" name="storyID" value="{{ story._id }}">
+            <input class="form-control" type="hidden" name="pageID" value="{{ page._id }}">
+            Name: <input class="form-control" type="text" name="name" value="{{ page.name }}" required>
+            Contributers: <input class="form-control" type="text" name="contributers" value="{{ page.contributers }}">
+            Description: <textarea class="form-control" name="desc" rows="8" cols="40">{{ page.desc }}</textarea>
+            <input type="submit" value="Edit Page">
+          </form>
+
+
+
+          <a class="btn btn-xs btn-primary" href="{{ baseurl }}/remPage?id={{ page._id }}&storyID={{ story._id }}&deletehash={{ page.deletehash }}">X</a>
+        </div>
       {% endfor %}
     </div>
 

@@ -5,14 +5,14 @@ from jinja2 import Environment, FileSystemLoader
 from imgurpython import ImgurClient
 import pymongo
 from bson.objectid import ObjectId
-import config
+import config, config2
 
 #Mongo Stuff
 client = pymongo.MongoClient()
 env = Environment(loader=FileSystemLoader('templates'))
 db = client['jaxtory']
 stories = db['stories']
-storyList = list(stories.find({"jType": "story"}))
+#storyList = list(stories.find({"jType": "story"}))
 
 #Imgur Stuff
 iclient = ImgurClient(config.imgur_app, config.imgur_secret, config.imgur_token,config.imgur_rtoken)
@@ -57,10 +57,26 @@ class Admin:
         newPage['jType'] = 'page'
         newPage['storyID'] = storyID
         newPage['name'] = page['title']
+        newPage['contributers'] = ''
+        newPage['desc'] = ''
         newPage['url'] = page['link']
         newPage['thumb'] = page['link'].replace('.jpg','t.jpg').replace('.png','t.jpg').replace('.gif','t.gif')
         newPage['deletehash'] = page['deletehash']
         stories.insert_one(newPage)
+        return storyRender(storyID)
+
+    @cherrypy.expose()
+    def editPage(self, storyID, pageID, name, contributers, desc):
+        newPage = stories.update_one(
+            {'_id': ObjectId(pageID)},
+            {
+                '$set': {
+                    'name': name,
+                    'contributers': contributers,
+                    'desc': desc
+                }
+            }
+        )
         return storyRender(storyID)
 
     @cherrypy.expose()
@@ -104,7 +120,7 @@ def adminRender():
 def storyRender(id):
     baseurl = cherrypy.request.base + cherrypy.request.script_name
     story = stories.find_one({"_id": ObjectId(id)})
-    pageList = list(stories.find({"jType": "page", "storyID": id}))
+    pageList = list(stories.find({"jType": "page", "storyID": id}).sort("name", pymongo.ASCENDING))
     admin_tmpl = env.get_template('story.html')
     return admin_tmpl.render(pageList=pageList, baseurl=baseurl, story=story)
 
