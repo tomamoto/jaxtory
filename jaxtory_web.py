@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import sys
 import cherrypy
 from jinja2 import Environment, FileSystemLoader
 from imgurpython import ImgurClient
@@ -7,8 +8,8 @@ import pymongo
 from bson.objectid import ObjectId
 try:
     import config, config2
-except:
-    print("Don't forget to generate proper config files from the included config*.py.example files.")
+except ImportError:
+    sys.exit("Don't forget to generate proper config files from the included config*.py.example files.")
 
 #Mongo Stuff
 client = pymongo.MongoClient()
@@ -16,6 +17,7 @@ env = Environment(loader=FileSystemLoader('templates'))
 db = client['jaxtory']
 stories = db['stories']
 
+#Handles reverse proxies
 if(config.rproxy):
     base = config.trueURL
 else:
@@ -29,7 +31,8 @@ iclient = ImgurClient(config.imgur_app, config.imgur_secret, config.imgur_token,
 class Jaxtory:
     @cherrypy.expose(['m', 'mobile'])
     def index(self):
-        return 'Hello'
+        page = getNewestPage()
+        return indexRender(page)
 
 class Admin:
 
@@ -132,6 +135,29 @@ def storyRender(id):
     pageList = list(stories.find({"jType": "page", "storyID": id}).sort("name", pymongo.ASCENDING))
     admin_tmpl = env.get_template('story.html')
     return admin_tmpl.render(pageList=pageList, baseurl=baseurl, story=story)
+
+def indexRender(page):
+    baseurl = base + cherrypy.request.script_name
+    tmpl = env.get_template('index.html')
+    defaultStory = stories.find_one({'jType': 'defaultStory'})
+    return tmpl.render(currentPage=page, baseurl=baseurl, defaultStory=defaultStory)
+
+def getNewestPage():
+    pages = getPages()
+    newest = pages[-1]
+    return newest
+
+def getPages():
+    defaultStory = stories.find_one({'jType': 'defaultStory'})
+    id = defaultStory['storyID']
+    pageList = list(stories.find({"jType": "page", "storyID": id}).sort("name", pymongo.ASCENDING))
+    x = 0
+    numberedPageList = []
+    for page in pageList:
+        x += 1
+        page['pageNum'] = x
+        numberedPageList.append(page)
+    return numberedPageList
 
 cherrypy.config.update("server.conf")
 cherrypy.tree.mount(Jaxtory(), '/', config2.conf)
