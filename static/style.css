@@ -1,7 +1,27 @@
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
+h1  {
+  font-size: 5.0em;
+  font-weight: 900;
+}
+
+h2 {
+  font-weight: 600;
+}
+
 .arrow {
   font-size: 5.0em;
 }
 
 .disabled {
-  opacity: .4;
+  opacity: .25;
+}
+
+.newest {
+  background-color: #D3A588;
+  padding: 15px;
+  border-radius: 25px;
+  color: white;
 }

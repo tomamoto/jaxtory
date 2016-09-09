@@ -5,6 +5,8 @@
     <title>Jaxtory</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ baseurl }}/style.css">
+    <link rel="stylesheet" type="text/css"
+      href="https://fonts.googleapis.com/css?family=Raleway">
   </head>
   <body>
     <h1 class="text-center">Jaxtory</h1>
@@ -12,23 +14,55 @@
     {% if currentPage.pageNum <= 1 %}
       <div id="previous-image" class="col-xs-1 text-center arrow disabled">&lt;</div>
     {% else %}
-      <div id="previous-image" class="col-xs-1 text-center arrow"><a href={{ baseurl }}/{{ currentPage.pageNum - 1 }}>&lt;</a></div>
+      <div id="previous-image" class="col-xs-1 text-center arrow"><a id="leftArrow" href={{ baseurl }}/{{ currentPage.pageNum - 1 }}>&lt;</a></div>
     {% endif %}
 
       <div id="main-image" class="container jumbotron block-center col-xs-10">
+      {% if currentPage.pageNum == newest.pageNum %}
+        <div class="newest text-center">
+          <p>Newest Page</p>
+          <img class="img-responsive center-block" src="{{ currentPage.url }}"></img>
+        </div>
+      {% else %}
         <img class="img-responsive center-block" src="{{ currentPage.url }}"></img>
-        <p>{{ currentPage.pageNum }}</p>
+      {% endif %}
+
+        <p id="desc">{{ currentPage.desc }}</p>
+        <h2 id="contributers_title">Contributers</h2>
+        <p id="contributers"> {{ currentPage.contributers }}</p>
       </div>
 
     {% if currentPage.pageNum >= newest.pageNum %}
       <div id="next-image" class="col-xs-1 text-center arrow disabled">&gt;</div>
     {% else %}
-      <div id="next-image" class="col-xs-1 text-center arrow"><a href={{ baseurl }}/{{ currentPage.pageNum + 1 }}>&gt;</a></div>
+      <div id="next-image" class="col-xs-1 text-center arrow"><a id="rightArrow" href={{ baseurl }}/{{ currentPage.pageNum + 1 }}>&gt;</a></div>
     {% endif %}
-
+      <div id="belowImage" class="container col-xs-12">
+        <p class="text-center">{{ currentPage.pageNum }} / {{ newest.pageNum }}</p>
+      </div>
     </div>
+
+
+
 
     <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    //Script to allow left/right arrow controls to flip pages
+      $(document).keydown(function(e) {
+        switch(e.which) {
+            case 37: // left
+            document.getElementById("leftArrow").click();
+            break;
+
+            case 39: // right
+            document.getElementById("rightArrow").click();
+            break;
+
+            default: return; // exit this handler for other keys
+        }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+      });
+    </script>
   </body>
 </html>
