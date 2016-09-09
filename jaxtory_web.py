@@ -28,10 +28,15 @@ else:
 #Imgur Stuff
 iclient = ImgurClient(config.imgur_app, config.imgur_secret, config.imgur_token,config.imgur_rtoken)
 
+@cherrypy.popargs('pageNum')
 class Jaxtory:
     @cherrypy.expose(['m', 'mobile'])
-    def index(self):
-        page = getNewestPage()
+    def index(self, pageNum=0):
+        print("Popargs: " + str(pageNum))
+        if int(pageNum) == 0:
+            page = getNewestPage()
+        else:
+            page = getPage(int(pageNum))
         return indexRender(page)
 
 class Admin:
@@ -140,12 +145,20 @@ def indexRender(page):
     baseurl = base + cherrypy.request.script_name
     tmpl = env.get_template('index.html')
     defaultStory = stories.find_one({'jType': 'defaultStory'})
-    return tmpl.render(currentPage=page, baseurl=baseurl, defaultStory=defaultStory)
+    newest = getNewestPage()
+    return tmpl.render(currentPage=page, baseurl=baseurl, defaultStory=defaultStory, newest=newest)
 
 def getNewestPage():
     pages = getPages()
     newest = pages[-1]
     return newest
+
+def getPage(pageNum):
+    pages = getPages()
+    for page in pages:
+        if page['pageNum'] == pageNum:
+            return page
+    return getNewestPage()
 
 def getPages():
     defaultStory = stories.find_one({'jType': 'defaultStory'})

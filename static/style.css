@@ -1,3 +1,7 @@
 .arrow {
   font-size: 5.0em;
 }
+
+.disabled {
+  opacity: .4;
+}
