@@ -32,11 +32,14 @@ iclient = ImgurClient(config.imgur_app, config.imgur_secret, config.imgur_token,
 class Jaxtory:
     @cherrypy.expose(['m', 'mobile'])
     def index(self, pageNum=0):
-        print("Popargs: " + str(pageNum))
-        if int(pageNum) == 0:
+        try:
+            if int(pageNum) == 0:
+                page = getNewestPage()
+            else:
+                page = getPage(int(pageNum))
+        except:
             page = getNewestPage()
-        else:
-            page = getPage(int(pageNum))
+            pass
         return indexRender(page)
 
 class Admin:

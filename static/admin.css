@@ -12,3 +12,8 @@ li {
 h1 {
   margin-bottom: 50px;
 }
+
+.page {
+min-height: 160px;
+margin: auto;
+}

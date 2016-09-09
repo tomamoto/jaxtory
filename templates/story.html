@@ -9,7 +9,7 @@
     <h1>Jaxtory - Story Admin - {{ story.name }}</h1>
     <div class="container">
       {% for page in pageList %}
-        <div class="container col-md-6">
+        <div class="container col-md-5 page">
           <img src="{{ page.thumb }}"></img>
           <button type="btn btn-standard" data-toggle="collapse" data-target="#editform{{ page._id }},.collapse.in">Edit</button>
           <form id="editform{{ page._id }}"class="form-horizontal collapse" action="{{ baseurl }}/editPage" method="post">
