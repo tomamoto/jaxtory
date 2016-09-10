@@ -7,17 +7,21 @@
     <link rel="stylesheet" href="{{ baseurl }}/style.css">
     <link rel="stylesheet" type="text/css"
       href="https://fonts.googleapis.com/css?family=Raleway">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
   </head>
   <body>
     <h1 class="text-center">Jaxtory</h1>
     <div class="container">
     {% if currentPage.pageNum <= 1 %}
-      <div id="previous-image" class="col-xs-1 text-center arrow disabled">&lt;</div>
+      <div id="first-image" class="col-xs-1 text-center disabled"><i class="material-icons arrow">first_page</i></div>
+      <div id="previous-image" class="col-xs-1 text-center disabled"><i class="material-icons arrow">chevron_left</i></div>
     {% else %}
-      <div id="previous-image" class="col-xs-1 text-center arrow"><a id="leftArrow" href={{ baseurl }}/{{ currentPage.pageNum - 1 }}>&lt;</a></div>
+      <div id="first-image" class="col-xs-1 text-center"><a href={{ baseurl }}/1><i class="material-icons arrow">first_page</i></a></div>
+      <div id="previous-image" class="col-xs-1 text-center"><a id="leftArrow" href={{ baseurl }}/{{ currentPage.pageNum - 1 }}><i class="material-icons arrow">chevron_left</i></a></div>
     {% endif %}
 
-      <div id="main-image" class="container jumbotron block-center col-xs-10">
+      <div id="main-image" class="container jumbotron block-center col-xs-8">
       {% if currentPage.pageNum == newest.pageNum %}
         <div class="newest text-center">
           <p>Newest Page</p>
@@ -33,9 +37,11 @@
       </div>
 
     {% if currentPage.pageNum >= newest.pageNum %}
-      <div id="next-image" class="col-xs-1 text-center arrow disabled">&gt;</div>
+      <div id="next-image" class="col-xs-1 text-center disabled"><i class="material-icons arrow">chevron_right</i></div>
+      <div id="last-image" class="col-xs-1 text-center disabled"><i class="material-icons arrow">last_page</i></div>
     {% else %}
-      <div id="next-image" class="col-xs-1 text-center arrow"><a id="rightArrow" href={{ baseurl }}/{{ currentPage.pageNum + 1 }}>&gt;</a></div>
+      <div id="next-image" class="col-xs-1 text-center"><a id="rightArrow" href={{ baseurl }}/{{ currentPage.pageNum + 1 }}><i class="material-icons arrow">chevron_right</i></a></div>
+      <div id="last-image"" class="col-xs-1 text-center"><a href={{ baseurl }}/{{ newest.pageNum }}><i class="material-icons arrow">last_page</i></a></div>
     {% endif %}
       <div id="belowImage" class="container col-xs-12">
         <p class="text-center">{{ currentPage.pageNum }} / {{ newest.pageNum }}</p>

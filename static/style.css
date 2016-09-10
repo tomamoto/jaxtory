@@ -11,10 +11,6 @@ h2 {
   font-weight: 600;
 }
 
-.arrow {
-  font-size: 5.0em;
-}
-
 .disabled {
   opacity: .25;
 }
@@ -24,4 +20,8 @@ h2 {
   padding: 15px;
   border-radius: 25px;
   color: white;
+}
+
+.arrow {
+  font-size: 5.0em !important;
 }
