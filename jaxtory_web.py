@@ -66,8 +66,8 @@ class Admin:
         return adminRender()
 
     @cherrypy.expose()
-    def addPage(self, storyID, file):
-        imconf = {'album': config.album, 'name': file.filename, 'title': file.filename}
+    def addPage(self, storyID, file, name, contributers='', desc=''):
+        imconf = {'album': config.album, 'name': file.filename, 'title': name}
         f = open('/tmp/' + file.filename, 'w')
         f.write(file.file.read())
 
@@ -76,9 +76,9 @@ class Admin:
         newPage = {}
         newPage['jType'] = 'page'
         newPage['storyID'] = storyID
-        newPage['name'] = page['title']
-        newPage['contributers'] = ''
-        newPage['desc'] = ''
+        newPage['name'] = name
+        newPage['contributers'] = contributers
+        newPage['desc'] = desc
         newPage['url'] = page['link']
         newPage['thumb'] = page['link'].replace('.jpg','t.jpg').replace('.png','t.jpg').replace('.gif','t.gif')
         newPage['deletehash'] = page['deletehash']
