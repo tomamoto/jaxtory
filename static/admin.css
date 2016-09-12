@@ -13,6 +13,10 @@ h1 {
   margin-bottom: 50px;
 }
 
+td {
+  padding: 5px;
+}
+
 .page {
 min-height: 160px;
 }
