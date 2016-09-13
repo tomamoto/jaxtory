@@ -36,6 +36,7 @@
         <h2 id="contributers_title">Contributers</h2>
         {% set contList = currentPage.contributers.split(',') %}
         {% for cont in contList %}
+          <p class="contributer"> {{ cont }}</p>
         {% endfor %}
       {% endif %}
       </div>
