@@ -34,7 +34,9 @@
         <p id="desc">{{ currentPage.desc }}</p>
       {% if currentPage.contributers != '' %}
         <h2 id="contributers_title">Contributers</h2>
-        <p id="contributers"> {{ currentPage.contributers }}</p>
+        {% set contList = currentPage.contributers.split(',') %}
+        {% for cont in contList %}
+        {% endfor %}
       {% endif %}
       </div>
 
