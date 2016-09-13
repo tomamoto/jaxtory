@@ -40,7 +40,7 @@ class Jaxtory:
     def error_page_404(status, message, traceback, version):
         return "This page does not exist.  Why are you here, exactly? <a href=" + getBase() + ">Go home.</a>"
     cherrypy.config.update({'error_page.404': error_page_404})
-    
+
 class Admin:
 
     @cherrypy.expose()
@@ -174,7 +174,7 @@ def getPages():
         numberedPageList.append(page)
     return numberedPageList
 
-    def getBase():
+def getBase():
     if(config.rproxy):
         base = config.trueURL
     else:
