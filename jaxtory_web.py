@@ -17,12 +17,6 @@ env = Environment(loader=FileSystemLoader('templates'))
 db = client['jaxtory']
 stories = db['stories']
 
-#Handles reverse proxies
-if(config.rproxy):
-    base = config.trueURL
-else:
-    base = cherrypy.request.base
-
 #storyList = list(stories.find({"jType": "story"}))
 
 #Imgur Stuff
@@ -42,6 +36,11 @@ class Jaxtory:
             pass
         return indexRender(page)
 
+    #Handles bogus URIs to give a clean 404 message.
+    def error_page_404(status, message, traceback, version):
+        return "This page does not exist.  Why are you here, exactly? <a href=" + getBase() + ">Go home.</a>"
+    cherrypy.config.update({'error_page.404': error_page_404})
+    
 class Admin:
 
     @cherrypy.expose()
@@ -131,21 +130,21 @@ class Admin:
         return adminRender()
 
 def adminRender():
-    baseurl = base + cherrypy.request.script_name
+    baseurl = getBase() + cherrypy.request.script_name
     storyList = list(stories.find({"jType": "story"}))
     admin_tmpl = env.get_template('admin.html')
     defaultStory = stories.find_one({'jType': 'defaultStory'})
     return admin_tmpl.render(storyList=storyList, baseurl=baseurl, defaultStory=defaultStory)
 
 def storyRender(id):
-    baseurl = base + cherrypy.request.script_name
+    baseurl = getBase() + cherrypy.request.script_name
     story = stories.find_one({"_id": ObjectId(id)})
     pageList = list(stories.find({"jType": "page", "storyID": id}).sort("name", pymongo.ASCENDING))
     admin_tmpl = env.get_template('story.html')
     return admin_tmpl.render(pageList=pageList, baseurl=baseurl, story=story)
 
 def indexRender(page):
-    baseurl = base + cherrypy.request.script_name
+    baseurl = getBase() + cherrypy.request.script_name
     tmpl = env.get_template('index.html')
     defaultStory = stories.find_one({'jType': 'defaultStory'})
     newest = getNewestPage()
@@ -174,6 +173,13 @@ def getPages():
         page['pageNum'] = x
         numberedPageList.append(page)
     return numberedPageList
+
+    def getBase():
+    if(config.rproxy):
+        base = config.trueURL
+    else:
+        base = cherrypy.request.base
+    return base
 
 cherrypy.config.update("server.conf")
 cherrypy.tree.mount(Jaxtory(), '/', config2.conf)
