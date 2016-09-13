@@ -17,6 +17,12 @@ env = Environment(loader=FileSystemLoader('templates'))
 db = client['jaxtory']
 stories = db['stories']
 
+#Handles reverse proxies
+if(config.rproxy):
+    base = config.trueURL
+else:
+    base = cherrypy.request.base
+
 #storyList = list(stories.find({"jType": "story"}))
 
 #Imgur Stuff
@@ -35,11 +41,6 @@ class Jaxtory:
             page = getNewestPage()
             pass
         return indexRender(page)
-
-    #Handles bogus URIs to give a clean 404 message.
-    def error_page_404(status, message, traceback, version):
-        return "This page does not exist.  Why are you here, exactly? <a href=" + getBase() + ">Go home.</a>"
-    cherrypy.config.update({'error_page.404': error_page_404})
 
 class Admin:
 
@@ -65,8 +66,8 @@ class Admin:
         return adminRender()
 
     @cherrypy.expose()
-    def addPage(self, storyID, file):
-        imconf = {'album': config.album, 'name': file.filename, 'title': file.filename}
+    def addPage(self, storyID, file, name, contributers='', desc=''):
+        imconf = {'album': config.album, 'name': file.filename, 'title': name}
         f = open('/tmp/' + file.filename, 'w')
         f.write(file.file.read())
 
@@ -75,9 +76,9 @@ class Admin:
         newPage = {}
         newPage['jType'] = 'page'
         newPage['storyID'] = storyID
-        newPage['name'] = page['title']
-        newPage['contributers'] = ''
-        newPage['desc'] = ''
+        newPage['name'] = name
+        newPage['contributers'] = contributers
+        newPage['desc'] = desc
         newPage['url'] = page['link']
         newPage['thumb'] = page['link'].replace('.jpg','t.jpg').replace('.png','t.jpg').replace('.gif','t.gif')
         newPage['deletehash'] = page['deletehash']
@@ -130,21 +131,21 @@ class Admin:
         return adminRender()
 
 def adminRender():
-    baseurl = getBase() + cherrypy.request.script_name
+    baseurl = base + cherrypy.request.script_name
     storyList = list(stories.find({"jType": "story"}))
     admin_tmpl = env.get_template('admin.html')
     defaultStory = stories.find_one({'jType': 'defaultStory'})
     return admin_tmpl.render(storyList=storyList, baseurl=baseurl, defaultStory=defaultStory)
 
 def storyRender(id):
-    baseurl = getBase() + cherrypy.request.script_name
+    baseurl = base + cherrypy.request.script_name
     story = stories.find_one({"_id": ObjectId(id)})
     pageList = list(stories.find({"jType": "page", "storyID": id}).sort("name", pymongo.ASCENDING))
     admin_tmpl = env.get_template('story.html')
     return admin_tmpl.render(pageList=pageList, baseurl=baseurl, story=story)
 
 def indexRender(page):
-    baseurl = getBase() + cherrypy.request.script_name
+    baseurl = base + cherrypy.request.script_name
     tmpl = env.get_template('index.html')
     defaultStory = stories.find_one({'jType': 'defaultStory'})
     newest = getNewestPage()
@@ -173,14 +174,6 @@ def getPages():
         page['pageNum'] = x
         numberedPageList.append(page)
     return numberedPageList
-
-def getBase():
-    if(config.rproxy):
-        base = config.trueURL
-    else:
-        base = cherrypy.request.base
-    return base
-
 
 cherrypy.config.update("server.conf")
 cherrypy.tree.mount(Jaxtory(), '/', config2.conf)
