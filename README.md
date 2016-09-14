@@ -13,8 +13,10 @@ This project depends on the following modules:
 * **pymongo** - to connect to and manipulate our database
 * **imgurpython** - for imgur integration
 * **jinja2** -templating engine
-The simples way to install them is using pip with the following command
+The simples way to install them is using pip with the following command:
+
 `pip install cherrypy pymongo imgurpython jinja2`
+
 (Or if root permission are necessary: `sudo pip install cherrypy pymongo imgurpython jinja2`)
 
 ### Usage
