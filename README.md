@@ -8,7 +8,14 @@ Jaxtory is something simple I whipped up to help my lovely wife Jaxxy easily kee
 * **nginx** *(optional)* for reverse proxy in front of CherryPy - Run `sudo apt-get install nginx` or whatever is appropriate for your OS/Distro.
 
 ##### Python Modules
+This project is depending on the modules following modules:
+* cherrypy - for our actual web front-end
+* pymongo - to connect to and manipulate our database
+* imgurpython - for imgur integration
+* jinja2 -templating engine
+The simples way to install them is using pip with the following command
 `pip install cherrypy pymongo imgurpython jinja2`
+(Or if root permission are necessary: `sudo pip install cherrypy pymongo imgurpython jinja2`)
 
 ### Usage
 
