@@ -4,8 +4,8 @@
 Jaxtory is something simple I whipped up to help my lovely wife Jaxxy easily keep track of her chose-your-own adventure stories.  I am open to contributions, but not expecting this to draw a ton of widespread attention since setting it up requires so me advanced knowledge and might not be possible with the shared hosting (i.e. cPanel) that most artists are more familiar with.  Still, for those with the technical knowledge and resources required (like root shell access to their server/VPS), I'm creating some documentation to assist with those who really want to use this for themselves.  
 
 ### Dependencies
-**MongoDB** - Run `sudo apt-get install mongodb` or whatever is appropriate for your OS/Distro.
-**nginx** *(optional)* for reverse proxy in front of CherryPy - Run `sudo apt-get install nginx` or whatever is appropriate for your OS/Distro.
+* **MongoDB** - Run `sudo apt-get install mongodb` or whatever is appropriate for your OS/Distro.
+* **nginx** *(optional)* for reverse proxy in front of CherryPy - Run `sudo apt-get install nginx` or whatever is appropriate for your OS/Distro.
 
 ##### Python Modules
 `pip install cherrypy pymongo imgurpython jinja2`
