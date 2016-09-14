@@ -15,10 +15,11 @@ This project depends on the following modules:
 * **jinja2** -templating engine
 The simples way to install them is using pip with the following command:
 
-`pip install cherrypy pymongo imgurpython jinja2`
-
-(Or if root permission are necessary: `sudo pip install cherrypy pymongo imgurpython jinja2`)
-
+```pip install cherrypy pymongo imgurpython jinja2
+```
+Or if root permission are necessary:
+  ```sudo pip install cherrypy pymongo imgurpython jinja2`
+  ```
 ### Usage
 
 #### Initial Setup
