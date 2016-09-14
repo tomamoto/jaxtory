@@ -1,5 +1,9 @@
 body {
+  position: relative;
   font-family: 'Raleway', sans-serif;
+  margin: 0;
+  padding-bottom: 3rem;
+  min-height: 100%;
 }
 
 h1  {
@@ -9,6 +13,10 @@ h1  {
 
 h2 {
   font-weight: 600;
+}
+
+#belowImage {
+  margin-bottom: 50px;
 }
 
 .disabled {
@@ -24,4 +32,13 @@ h2 {
 
 .arrow {
   font-size: 5.0em !important;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
 }

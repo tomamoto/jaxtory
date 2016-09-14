@@ -3,17 +3,22 @@ import os.path
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
+#Register with api.imgur.com to get the necessary credentials below.
+#The album code is what will appear at the end of the URL when you click on the album that you intend to use for this app.
+
 imgur_app = 'xxxxxxxxxxxxxxx'
 imgur_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 imgur_token = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 imgur_rtoken = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 album = 'put_imgur_album_code_here'
 
-#Is server behind a reverse proxy?
+#Is server behind a reverse proxy like nginx?  If so, set rproxy to true and set trueURL to the base URL of your site.
 rproxy = False
 trueURL = 'http://story.example.com'
 
 USERS = {'user': 'secret_please_change'}
+
+#Be sure to set tools.auth_digest.key to a unique 16-digit hexidecimal value (using numbers 0-9 and letters a-f, i.e. 525e8a9f0bcc78d4)
 
 conf = {
    '/': {
