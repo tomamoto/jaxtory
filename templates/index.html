@@ -23,13 +23,9 @@
 
       <div id="main-image" class="container jumbotron block-center col-xs-8">
       {% if currentPage.pageNum == newest.pageNum %}
-        <div class="newest text-center">
-          <p>Newest Page</p>
-          <img class="img-responsive center-block" src="{{ currentPage.url }}"></img>
-        </div>
-      {% else %}
-        <img class="img-responsive center-block" src="{{ currentPage.url }}"></img>
+          <div class="text-center newblock"><h5 class="badge text-center newest">Newest Page</h5></div>
       {% endif %}
+          <img id="featured-image" class="img-responsive center-block" src="{{ currentPage.url }}"></img>
 
         <p id="desc">{{ currentPage.desc }}</p>
       {% if currentPage.contributers != '' %}

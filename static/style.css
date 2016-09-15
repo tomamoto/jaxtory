@@ -15,6 +15,10 @@ h2 {
   font-weight: 600;
 }
 
+#featured-image {
+  margin-top: 20px;
+}
+
 #belowImage {
   margin-bottom: 50px;
 }
@@ -23,11 +27,13 @@ h2 {
   opacity: .25;
 }
 
+.jumbotron {
+  padding-top: 0;
+
+}
+
 .newest {
-  background-color: #D3A588;
-  padding: 15px;
-  border-radius: 25px;
-  color: white;
+  background-color: #1693A5;
 }
 
 .arrow {
