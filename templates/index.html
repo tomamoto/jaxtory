@@ -21,7 +21,7 @@
       <div id="previous-image" class="col-xs-1 text-center"><a id="leftArrow" href={{ baseurl }}/{{ currentPage.pageNum - 1 }}><i class="material-icons arrow">chevron_left</i></a></div>
     {% endif %}
 
-      <div id="main-image" class="container jumbotron block-center col-xs-8">
+      <div id="main-block" class="container jumbotron block-center col-xs-8">
       {% if currentPage.pageNum == newest.pageNum %}
           <div class="text-center newblock"><h5 class="badge text-center newest">Newest Page</h5></div>
       {% endif %}
@@ -32,7 +32,7 @@
         <h2 id="contributers_title">Contributers</h2>
         {% set contList = currentPage.contributers.split(',') %}
         {% for cont in contList %}
-          <p class="contributer"> {{ cont }}</p>
+          <p class="contributer"> {{ cont.strip() }}</p>
         {% endfor %}
       {% endif %}
       </div>
