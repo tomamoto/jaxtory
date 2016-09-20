@@ -10,6 +10,7 @@
     <div class="container">
       {% for page in pageList %}
         <div class="container col-md-5 page">
+          <h4>{{ page.name }}</h4>
           <img src="{{ page.thumb }}"></img>
           <button type="btn btn-standard" data-toggle="collapse" data-target="#editform{{ page._id }},.collapse.in">Edit</button>
           <form id="editform{{ page._id }}"class="form-horizontal collapse" action="{{ baseurl }}/editPage" method="post">
@@ -21,9 +22,8 @@
             <input type="submit" value="Save">
           </form>
 
-
-
-          <a class="btn btn-xs btn-primary" href="{{ baseurl }}/remPage?id={{ page._id }}&storyID={{ story._id }}&deletehash={{ page.deletehash }}">X</a>
+          <!--a class="btn btn-xs btn-primary" href="{{ baseurl }}/remPage?id={{ page._id }}&storyID={{ story._id }}&deletehash={{ page.deletehash }}">X</a-->
+          <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#delModal" data-storyid="{{ story._id }}" data-pageid="{{ page._id }}" data-deletehash="{{ page.deletehash }}" data-pagename="{{ page.name }}">X</button>
         </div>
       {% endfor %}
     </div>
@@ -45,7 +45,42 @@
       <a class="btn btn-default" href="{{baseurl}}">Back to Admin</a>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="delModalLabel">Delete Page</h4>
+          </div>
+          <div class="modal-body">
+           <p class= "modal-message">
+             Are you sure you want to delete this page?
+           </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <a type="button" class="btn btn-primary btn-delete">Delete!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+      $('#delModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var storyid = button.data('storyid')
+        var pageid = button.data('pageid')
+        var pagename = button.data('pagename')
+        var deletehash = button.data('deletehash')
+        var modal = $(this)
+        modal.find('.modal-message').html('Do you really want to delete <strong>' + pagename + '</strong>?')
+        modal.find('.btn-delete').prop('href', '{{ baseurl }}/remPage?id=' + pageid + '&storyID=' + storyid + '&deletehash=' + deletehash)
+      })
+    </script>
+
   </body>
 </html>
